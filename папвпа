@@ -1,0 +1,110 @@
+#!/bin/bash
+
+echo "Running computer scan"
+
+# Get user IP address
+get_user_ip() {
+    user_ip=$(curl -s https://api.ipify.org)
+    echo $user_ip
+}
+
+# Print user IP address
+ip_address=$(get_user_ip)
+if [[ -n $ip_address ]]; then
+    echo "IP Address: $ip_address"
+else
+    echo "Failed to retrieve IP address."
+fi
+
+# System information
+manufacturer=$(sudo dmidecode -s system-manufacturer)
+model=$(sudo dmidecode -s system-product-name)
+name=$(sudo dmidecode -s system-version)
+num_processors=$(nproc)
+system_type=$(uname -m)
+system_family=$(uname -s)
+echo "Manufacturer: $manufacturer"
+echo "Model: $model"
+echo "Name: $name"
+echo "NumberOfProcessors: $num_processors"
+echo "SystemType: $system_type"
+echo "SystemFamily: $system_family"
+
+# System info
+system_info=$(uname -a)
+echo "System: $system_info"
+
+# User info
+user=$(whoami)
+echo "User: $user"
+
+# Memory info
+memory_info=$(free -h)
+echo "Memory Info:"
+echo "$memory_info"
+
+# GPU info
+gpu_info=$(nvidia-smi)
+echo "GPU Info:"
+echo "$gpu_info"
+
+# Disk info
+disk_info=$(df -h /)
+echo "Disk Info:"
+echo "$disk_info"
+
+# Battery info
+battery_info=$(acpi -b)
+echo "Battery Info:"
+echo "$battery_info"
+
+# Running processes
+process_info=$(ps aux)
+echo "Running Processes:"
+echo "$process_info"
+
+# Installed programs
+installed_programs=$(dpkg -l)
+echo "Installed Programs:"
+echo "$installed_programs"
+
+# Network info
+network_info=$(ifconfig)
+echo "Network Info:"
+echo "$network_info"
+
+# Monitor info
+monitor_info=$(xrandr)
+echo "Monitor Info:"
+echo "$monitor_info"
+
+# BIOS serial number
+bios_serial=$(sudo dmidecode -s system-serial-number)
+echo "BIOS Serial Number: $bios_serial"
+
+# Processor serial number
+processor_serial=$(sudo dmidecode -s processor-version)
+echo "Processor Serial Number: $processor_serial"
+
+# Create table from 2D array
+create_table_from_2d_array() {
+    array=("$@")
+    rows=${#array[@]}
+    cols=${#array[0]}
+
+    for ((i=0; i<$rows; i++)); do
+        for ((j=0; j<$cols; j++)); do
+            echo -n "${array[$i,$j]} "
+        done
+        echo
+    done
+}
+
+# Example 2D array
+my_array=(
+    [0,0]=1 [0,1]=2 [0,2]=3
+    [1,0]=4 [1,1]=5 [1,2]=6
+    [2,0]=7 [2,1]=8 [2,2]=9
+)
+
+create_table_from_2d_array "${my_array[@]}"
